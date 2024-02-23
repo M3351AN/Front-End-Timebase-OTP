@@ -2,8 +2,9 @@ name: Obfuscate JS Code
 
 on:
     push:
-        branches: ["master"]
-
+        branches: ["main"]
+        paths:
+          - "/otp.js"
 permissions:
     contents: write
     pages: write
