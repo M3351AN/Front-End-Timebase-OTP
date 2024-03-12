@@ -22,7 +22,6 @@
     }
 
     function generateHOTP({ key, counter = 0 }) {
-    function generateHOTP({ key, counter = 0 }) {
     const digest = computeHMACSha1(counter.toString(16).padStart(16, '0'), key);
     const bytes = hexToBytes(digest);
     const offset = bytes[19] & 0xF;
