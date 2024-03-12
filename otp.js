@@ -22,21 +22,20 @@
     }
 
     function generateHOTP({ key, counter = 0 }) {
-      const digest = computeHMACSha1(counter.toString(16).padStart(16, '0'), key);
+    function generateHOTP({ key, counter = 0 }) {
+    const digest = computeHMACSha1(counter.toString(16).padStart(16, '0'), key);
+    const bytes = hexToBytes(digest);
+    const offset = bytes[19] & 0xF;
+    const v = ((bytes[offset] & 0x7F) << 24)
+            | ((bytes[offset + 1] & 0xFF) << 16)
+            | ((bytes[offset + 2] & 0xFF) << 8)
+            | (bytes[offset + 3] & 0xFF);
+    const heavenlyStems = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+    const code = String(v % 1000000).padStart(6, '0').split('').map(num => heavenlyStems[parseInt(num)]).join('');
 
-      const bytes = hexToBytes(digest);
-
-      const offset = bytes[19] & 0xF;
-      const v
-        = ((bytes[offset] & 0x7F) << 24)
-        | ((bytes[offset + 1] & 0xFF) << 16)
-        | ((bytes[offset + 2] & 0xFF) << 8)
-        | (bytes[offset + 3] & 0xFF);
-
-      const code = String(v % 1000000).padStart(6, '0');
-
-      return code;
+    return code;
     }
+
 
     function verifyHOTP({
       token,
